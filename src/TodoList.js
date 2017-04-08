@@ -54,6 +54,7 @@ class TodoList extends Component {
     if(this.state.editTitle) {
       title = (
         <input 
+          className="List-title"
           type="text"
           value={this.state.todolistTitle} 
           onChange={this.handleTitleChange} 
@@ -74,12 +75,14 @@ class TodoList extends Component {
       <div className="card teal lighten-5 List">
         <div id="H" className="card-content purple darken-4 List-header">
           {title}
+          <i className="small material-icons">delete_forever</i>
           <ul className="List-counts">
             <li>todo: {this.props.todoNum}</li>
             <li>completed: {this.props.completedNum}</li>
           </ul>
           <input 
             type="text"
+            maxLength="25"
             placeholder="Add a new todo"
             value={this.state.todoContent} 
             onChange={this.handleChange} 

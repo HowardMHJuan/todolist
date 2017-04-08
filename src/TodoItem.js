@@ -15,6 +15,7 @@ class TodoItem extends Component {
           checked={this.props.completed} 
         />
         <label htmlFor={this.props.id}>{this.props.todoContent}</label>
+        <i className="blue-text text-darken-2 material-icons">close</i>
       </div>
     );
   }

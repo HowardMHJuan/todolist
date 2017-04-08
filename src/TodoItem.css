@@ -1,7 +1,11 @@
 .Item {
   display: inline-flex;
   align-items: center;
+  width: 18.5em;
+  height: 2em;
 }
-.Item {
-  width: 90%;
+.Item label {
+  text-align: left;
+  width: 17em;
+  margin-top: 0.3em;
 }

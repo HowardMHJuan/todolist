@@ -88,6 +88,7 @@ class TodoApp extends Component {
           <input 
             className="App-title"
             type="text" 
+            maxLength="15"
             placeholder="Add a new todolist"
             value={this.state.todolistTitle} 
             onChange={this.handleChange} 
