@@ -31,3 +31,7 @@ input[type=text] {
 h1 {
   font-size: 5em;
 }
+.material-icons:hover {
+  cursor: pointer;
+  color: rgb(255, 0, 0) !important;
+}

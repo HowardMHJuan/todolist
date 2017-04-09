@@ -1,13 +1,29 @@
 .List {
   margin: 0 1em 2em 1em;
 }
+.List-title,
+.material-icon {
+  display: inline-flex;
+  justify-content: center;
+  width: 9em;
+}
 .List-title {
   font-size: 2em;
   line-height: 1;
+  text-align: center;
+}
+.List-title-static:hover {
+  cursor: url(edit.svg), auto;
+  color: #ffffff !important;
+}
+.List-header input {
+  width: 18em;
 }
 .List-content {
   height: 20em;
+  width: 20.5em;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 .List-counts {
   list-style: none;
@@ -27,5 +43,5 @@
   padding: 0 0.85em 0 0.9em;
 }
 #H {
-  padding: 1em 1em 0.3em 1em;
+  padding: 0.5em 0 0.3em 0.3em;
 }

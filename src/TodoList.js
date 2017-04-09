@@ -23,7 +23,7 @@ class TodoList extends Component {
       if(title.trim().length === 0) {
         alert('Title cannot be blank!');
       } else {
-        this.props.editTitle(this.props.id, title);
+        this.props.editTitle(this.props.listId, title);
         this.setState({editTitle: 0});
       }
     }
@@ -39,22 +39,30 @@ class TodoList extends Component {
       } else {
         const newtodo = {
           todoContent: content,
-          completed: 0,
+          completed: false,
         };
-        this.props.addTodo(this.props.id, newtodo);
+        this.props.addTodo(this.props.listId, newtodo);
         this.setState({todoContent: ''});
       }
     }
   }
-  completeTodo = (id) => {
-    this.props.completeTodo(this.props.id, id);
+  completeTodo = (itemId) => {
+    this.props.completeTodo(this.props.listId, itemId);
+  }
+  deleteTodo = (itemId) => {
+    this.props.deleteTodo(this.props.listId, itemId);
+  }
+  handleDelete = () => {
+    this.props.deleteTodolist(this.props.listId);
   }
   render = () => {
     let title;
     if(this.state.editTitle) {
       title = (
         <input 
+          className="List-title"
           type="text"
+          maxLength="20"
           value={this.state.todolistTitle} 
           onChange={this.handleTitleChange} 
           onKeyPress={this.handleTitleKeyPress}
@@ -64,7 +72,8 @@ class TodoList extends Component {
     } else {
       title = (
       <p
-        className="List-title"
+        className="List-title List-title-static"
+        title="Click to edit"
         onMouseOver={this.handleTitleMouseOver}
         onClick={this.handleTitleClick}
       >{this.state.todolistTitle}</p>
@@ -74,12 +83,14 @@ class TodoList extends Component {
       <div className="card teal lighten-5 List">
         <div id="H" className="card-content purple darken-4 List-header">
           {title}
+          <i className="small material-icons" onClick={this.handleDelete}>delete_forever</i>
           <ul className="List-counts">
             <li>todo: {this.props.todoNum}</li>
             <li>completed: {this.props.completedNum}</li>
           </ul>
           <input 
             type="text"
+            maxLength="25"
             placeholder="Add a new todo"
             value={this.state.todoContent} 
             onChange={this.handleChange} 
@@ -88,8 +99,10 @@ class TodoList extends Component {
         </div>
         <div className="List-content">
           {this.props.todos.map((todo, i) => <TodoItem
-            id={i}
+            itemId={i}
+            listId={this.props.listId}
             completeTodo={this.completeTodo}
+            deleteTodo={this.deleteTodo}
             todoContent={todo.todoContent}
             completed={todo.completed}
           />)}
