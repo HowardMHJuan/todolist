@@ -12,6 +12,10 @@
   line-height: 1;
   text-align: center;
 }
+.List-title-static:hover {
+  cursor: url(edit.svg), auto;
+  color: #ffffff !important;
+}
 .List-header input {
   width: 18em;
 }

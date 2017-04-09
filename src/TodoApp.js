@@ -36,40 +36,69 @@ class TodoApp extends Component {
       }
     }
   }
-  editTitle = (id, title) => {
+  editTitle = (listId, title) => {
     const todolists = this.state.todolists;
-    todolists[id-'0'].todolistTitle = title;
+    todolists[listId-'0'].todolistTitle = title;
     this.setState({todolists});
   }
-  addTodo = (id, todo) => {
+  addTodo = (listId, todo) => {
     let todolists = this.state.todolists;
-    todolists[id].todos.push(todo);
-    todolists[id].todoNum += 1;
+    todolists[listId].todos.push(todo);
+    todolists[listId].todoNum += 1;
     let totalTodoNum = this.state.totalTodoNum + 1;
     this.setState({
       todolists,
       totalTodoNum,
     });
   }
-  completeTodo = (id, item_id) => {
+  deleteTodolist = (listId) => {
     let todolists = this.state.todolists;
-    let completed = () => {
-      if(todolists[id].todos[item_id].completed) return todolists[id].todos[item_id].completed = 0;
-      else return todolists[id].todos[item_id].completed = 1;
-    }
-    let totalCompletedNum = this.state.totalCompletedNum
-    let totalTodoNum = this.state.totalTodoNum
-    if(completed() === 0) {
-      todolists[id].todoNum += 1;
-      todolists[id].completedNum -= 1;
+    let totalCompletedNum = this.state.totalCompletedNum;
+    let totalTodoNum = this.state.totalTodoNum;
+    totalCompletedNum -= todolists[listId].completedNum;
+    totalTodoNum -= todolists[listId].todoNum;
+    delete todolists[listId];
+    this.setState({
+      todolists,
+      totalTodoNum,
+      totalCompletedNum,
+    });
+  }
+  completeTodo = (listId, itemId) => {
+    let todolists = this.state.todolists;
+    let totalCompletedNum = this.state.totalCompletedNum;
+    let totalTodoNum = this.state.totalTodoNum;
+    if(todolists[listId].todos[itemId].completed) {
+      todolists[listId].todos[itemId].completed = false;
+      todolists[listId].todoNum += 1;
+      todolists[listId].completedNum -= 1;
       totalTodoNum += 1;
       totalCompletedNum -= 1;
     } else {
-      todolists[id].todoNum -= 1;
-      todolists[id].completedNum += 1;
+      todolists[listId].todos[itemId].completed = true;
+      todolists[listId].todoNum -= 1;
+      todolists[listId].completedNum += 1;
       totalTodoNum -= 1;
       totalCompletedNum += 1;
     }
+    this.setState({
+      todolists,
+      totalTodoNum,
+      totalCompletedNum,
+    });
+  }
+  deleteTodo = (listId, itemId) => {
+    let todolists = this.state.todolists;
+    let totalCompletedNum = this.state.totalCompletedNum;
+    let totalTodoNum = this.state.totalTodoNum;
+    if(todolists[listId].todos[itemId].completed) {
+      todolists[listId].completedNum -= 1;
+      totalCompletedNum -= 1;
+    } else {
+      todolists[listId].todoNum -= 1;
+      totalTodoNum -= 1;
+    }
+    delete todolists[listId].todos[itemId];
     this.setState({
       todolists,
       totalTodoNum,
@@ -88,7 +117,7 @@ class TodoApp extends Component {
           <input 
             className="App-title"
             type="text" 
-            maxLength="15"
+            maxLength="20"
             placeholder="Add a new todolist"
             value={this.state.todolistTitle} 
             onChange={this.handleChange} 
@@ -98,11 +127,13 @@ class TodoApp extends Component {
         </div>
         <div className="App-content">
           {this.state.todolists.map((todolist, i) => <TodoList
-            id={i}
+            listId={i}
             todolistTitle={todolist.todolistTitle}
             editTitle={this.editTitle}
+            deleteTodolist={this.deleteTodolist}
             addTodo={this.addTodo}
             completeTodo={this.completeTodo}
+            deleteTodo={this.deleteTodo}
             todoNum={todolist.todoNum}
             completedNum={todolist.completedNum}
             todos={todolist.todos} 
